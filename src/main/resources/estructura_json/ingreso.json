@@ -1,0 +1,29 @@
+{
+  "type": "object",
+  "properties": {
+    "username": {
+      "type": "string",
+      "description": "username"
+    },
+    "password": {
+      "type": "string",
+      "description": "password"
+    },
+    "person": "object",
+    "properties": {
+      "nombre": {
+        "type": "string",
+        "description" : "nombre de persona"
+      },
+      "apellido": {
+        "type": "string",
+        "description" : "apellido de persona"
+      },
+      "identificacion": {
+        "type": "string",
+        "description" : "identificacion de persona"
+      }
+    }
+  },
+  "required":["username, password, person"]
+}
