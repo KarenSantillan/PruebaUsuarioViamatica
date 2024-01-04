@@ -8,10 +8,8 @@ import org.everit.json.schema.loader.SchemaLoader;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,6 +21,9 @@ import org.apache.commons.io.IOUtils;
 public class UsuariosController {
     @Autowired
     UsuariosServices usuariosServices;
+
+    @Autowired
+    JdbcTemplate jdbcTemplate;
 
     // Cargar el esquema JSON para /ingresoUsuario
     InputStream ingresoSchemaStream = getClass().getResourceAsStream("/estructura_json/ingreso.json");
@@ -113,6 +114,21 @@ public class UsuariosController {
 
         usuariosServices.logoutUsuario(usuario);
         return ResponseEntity.ok(usuario);
+    }
+
+
+    @GetMapping("/users/{id}")
+    public Usuarios obtUser(@PathVariable Integer id){
+        String sql = "CALL sp_ObtUserID(?)";
+
+        return jdbcTemplate.queryForObject(sql, new Object[]{id}, (rs, rowNum) -> {
+            Usuarios user = new Usuarios();
+            user.setIdUsuario(rs.getInt("idUsuario"));
+            user.setIdUsuario(rs.getInt("userName"));
+            user.setIdUsuario(rs.getInt("password"));
+            return user;
+        });
+
     }
 
 }

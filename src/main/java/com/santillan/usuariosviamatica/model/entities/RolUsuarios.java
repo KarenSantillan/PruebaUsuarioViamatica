@@ -7,42 +7,18 @@ import java.util.Objects;
 @Entity
 @Table(name = "rol_usuarios", schema = "usuariosv", catalog = "")
 public class RolUsuarios {
-    private Integer idRol;
-    private Integer idUsuario;
+    @EmbeddedId
+    private RolUsuariosId idR;
     private Rol rolByIdRol;
     private Usuarios usuariosByIdUsuario;
+    private Integer idRU;
 
-    @Basic
-    @Column(name = "idRol", nullable = true)
-    public Integer getIdRol() {
-        return idRol;
+    public RolUsuariosId getIdR() {
+        return idR;
     }
 
-    public void setIdRol(Integer idRol) {
-        this.idRol = idRol;
-    }
-
-    @Basic
-    @Column(name = "idUsuario", nullable = true)
-    public Integer getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(Integer idUsuario) {
-        this.idUsuario = idUsuario;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        RolUsuarios that = (RolUsuarios) o;
-        return Objects.equals(idRol, that.idRol) && Objects.equals(idUsuario, that.idUsuario);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(idRol, idUsuario);
+    public void setId(RolUsuariosId id) {
+        this.idR = id;
     }
 
     @ManyToOne
@@ -63,5 +39,14 @@ public class RolUsuarios {
 
     public void setUsuariosByIdUsuario(Usuarios usuariosByIdUsuario) {
         this.usuariosByIdUsuario = usuariosByIdUsuario;
+    }
+
+    public void setIdRU(Integer idRU) {
+        this.idRU = idRU;
+    }
+
+    @Id
+    public Integer getIdRU() {
+        return idRU;
     }
 }
